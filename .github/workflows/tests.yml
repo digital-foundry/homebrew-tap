@@ -1,0 +1,26 @@
+# Public repo: GitHub-hosted runners are free here, and self-hosted runners on a
+# public repo would let fork PRs run code on the build machine.
+name: tests
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  formula:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: Homebrew/actions/setup-homebrew@main
+      - name: Point the tap at this checkout
+        run: |
+          rm -rf "$(brew --repo digital-foundry/tap)"
+          mkdir -p "$(dirname "$(brew --repo digital-foundry/tap)")"
+          ln -s "$GITHUB_WORKSPACE" "$(brew --repo digital-foundry/tap)"
+      - uses: actions/checkout@v4
+      - run: brew audit --strict --formula digital-foundry/tap/actualis
+      - run: brew install --build-from-source digital-foundry/tap/actualis
+      - run: brew test digital-foundry/tap/actualis
