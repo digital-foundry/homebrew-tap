@@ -1,8 +1,8 @@
 class Actualis < Formula
   desc "What actually ran: local, read-only audit of coding-agent transcripts"
   homepage "https://actualis.app"
-  url "https://files.pythonhosted.org/packages/64/13/c0704ea16c1cf2743da08dfd731dc5c8e4c657c0bc9a9599597421631aaf/actualis-0.3.0.tar.gz"
-  sha256 "e8f687bb059110b11be913fab89edcf624f243d3aa7448231cafefa7e162a9d9"
+  url "https://files.pythonhosted.org/packages/83/82/3e50019eb205c87f8cc5f21feffd9edb0f8b1dd4211110a0ed0869894f19/actualis-0.4.0.tar.gz"
+  sha256 "78257149ffe32e849e913a0e8bcdb3a0379468d67b0249154b261083d0d10924"
   license "AGPL-3.0-or-later"
 
   # Standard library only, so there are no resources to vendor: the formula
@@ -18,7 +18,7 @@ class Actualis < Formula
   end
 
   test do
-    assert_match "actualis 0.3.0", shell_output("#{bin}/actualis --version")
+    assert_match "actualis 0.4.0", shell_output("#{bin}/actualis --version")
     # A fresh HOME has no transcripts: it must say so and exit 1, not crash.
     ENV["HOME"] = testpath
     assert_match "no agent transcripts found", shell_output("#{bin}/actualis 2>&1", 1)
